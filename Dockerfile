@@ -2,7 +2,7 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY . .
+COPY prestamos .
 
 RUN chmod +x ./mvnw
 
