@@ -81,4 +81,16 @@ public class Prestamo {
     public void setHerramienta(Herramienta herramienta) {
         this.herramienta = herramienta;
     }
+    // Nuevo campo para saber si ya se devolvió
+    @Column(columnDefinition = "boolean default false")
+    private Boolean devuelto = false;
+
+    // Agrega su Getter y Setter al final de la clase:
+    public Boolean getDevuelto() {
+        return devuelto;
+    }
+
+    public void setDevuelto(Boolean devuelto) {
+        this.devuelto = devuelto;
+    }
 }

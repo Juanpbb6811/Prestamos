@@ -35,4 +35,8 @@ public class PrestamoController {
     public ResponseEntity<List<Prestamo>> consultarPrestamosPorHerramienta(@PathVariable Long id) {
         return ResponseEntity.ok(prestamoService.listarPrestamosPorHerramienta(id));
     }
+    @PutMapping("/{id}/devolver")
+    public ResponseEntity<Prestamo> devolverPrestamo(@PathVariable Long id) {
+        return ResponseEntity.ok(prestamoService.devolverPrestamo(id));
+    }
 }

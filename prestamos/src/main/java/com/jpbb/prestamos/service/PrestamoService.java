@@ -77,4 +77,28 @@ public class PrestamoService {
         }
         return prestamoRepository.findByHerramientaId(herramientaId);
     }
+    @Transactional
+    public Prestamo devolverPrestamo(Long id) {
+        // 1. Buscar el préstamo
+        Prestamo prestamo = prestamoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "El préstamo no existe"));
+
+        // 2. Verificar si ya estaba devuelto
+        if (Boolean.TRUE.equals(prestamo.getDevuelto())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Este préstamo ya fue devuelto anteriormente");
+        }
+
+        // 3. Marcar como devuelto
+        prestamo.setDevuelto(true);
+
+        // 4. Devolver las unidades al stock de la herramienta
+        Herramienta herramienta = prestamo.getHerramienta();
+        herramienta.setCantidad(herramienta.getCantidad() + prestamo.getCantidad());
+        herramientaRepository.save(herramienta);
+
+        // 5. Guardar los cambios del préstamo
+        return prestamoRepository.save(prestamo);
+    }
 }
